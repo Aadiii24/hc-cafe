@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>H&C Café – QR Codes</title>
+<title>H&C Café – Table QR Codes</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -18,118 +18,31 @@
     --card: #fff;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-  }
+  body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--text); min-height: 100vh; }
+
   header {
     background: var(--dark);
     padding: 22px 28px;
     text-align: center;
     border-bottom: 3px solid var(--accent);
   }
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    color: #e8a020;
-    font-size: 2rem;
-  }
+  header h1 { font-family: 'Playfair Display', serif; color: #e8a020; font-size: 2rem; }
   header p { color: #8a9a88; font-size: 0.9rem; margin-top: 6px; }
 
-  .qr-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 32px;
-    padding: 40px 24px;
-  }
-
-  .qr-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 30px 28px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    width: 280px;
-  }
-  .qr-card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--dark);
-    margin-bottom: 4px;
-  }
-  .qr-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
-
-  .qr-box {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    display: inline-block;
-    margin-bottom: 18px;
-  }
-
-  .qr-url {
-    font-size: 0.72rem;
-    color: var(--muted);
-    word-break: break-all;
-    background: #f5f0e8;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    text-align: left;
-  }
-
-  .btn-print {
+  .admin-bar {
     background: var(--dark);
     color: #e8a020;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 20px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    width: 100%;
-  }
-  .btn-print:hover { opacity: 0.85; }
-
-  .instructions {
-    max-width: 700px;
-    margin: 0 auto 40px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px 28px;
-    margin: 0 24px 40px;
-  }
-  .instructions h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: var(--dark);
-    margin-bottom: 14px;
-  }
-  .instructions ol { padding-left: 20px; }
-  .instructions li { margin-bottom: 8px; font-size: 0.9rem; color: var(--muted); }
-  .instructions li strong { color: var(--text); }
-
-  .admin-link-box {
-    background: var(--dark);
-    color: #e8a020;
-    padding: 16px 24px;
-    border-radius: 14px;
-    margin: 0 24px 40px;
+    padding: 14px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
+    margin: 20px 24px;
+    border-radius: 14px;
   }
-  .admin-link-box span { font-size: 0.9rem; }
-  .admin-link-box a {
+  .admin-bar span { font-size: 0.9rem; }
+  .admin-bar a {
     background: #e8a020;
     color: var(--dark);
     text-decoration: none;
@@ -139,76 +52,198 @@
     font-size: 0.88rem;
   }
 
-  @media print {
-    header, .instructions, .admin-link-box, .btn-print { display:none; }
-    .qr-grid { padding: 10px; gap: 20px; }
+  /* UPI CONFIG BOX */
+  .upi-config {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 0 24px 28px;
   }
+  .upi-config h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); margin-bottom: 12px; }
+  .upi-config input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--bg);
+    margin-bottom: 10px;
+  }
+  .upi-config button {
+    background: var(--dark);
+    color: #e8a020;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .upi-config .saved-msg { color: var(--accent); font-size: 0.85rem; margin-top: 6px; display:none; }
+
+  .qr-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    padding: 0 24px 40px;
+  }
+  .qr-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 30px 28px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 280px;
+  }
+  .qr-card h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); margin-bottom: 4px; }
+  .qr-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
+  .qr-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .qr-url {
+    font-size: 0.7rem;
+    color: var(--muted);
+    word-break: break-all;
+    background: #f5f0e8;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  .btn-test {
+    background: var(--dark);
+    color: #e8a020;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;
+    display: block;
+  }
+
+  .instructions {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 0 24px 40px;
+  }
+  .instructions h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 14px; }
+  .instructions ol { padding-left: 20px; }
+  .instructions li { margin-bottom: 8px; font-size: 0.9rem; color: var(--muted); }
+  .instructions li strong { color: var(--text); }
 </style>
 </head>
 <body>
 
 <header>
   <h1>H&C Café – Table QR Codes</h1>
-  <p>Print and place these on your tables</p>
+  <p>Scan → Browse Menu → Add to Cart → Pay</p>
 </header>
 
-<div style="padding: 24px 24px 0;">
-  <div class="admin-link-box">
-    <span>🖥️ Open the <strong>Admin Dashboard</strong> to view incoming orders in real time</span>
-    <a href="admin.html">Open Admin Panel →</a>
-  </div>
+<div class="admin-bar">
+  <span>🖥️ Open <strong>Admin Dashboard</strong> to see live orders</span>
+  <a href="admin.html">Admin Panel →</a>
+</div>
+
+<!-- UPI CONFIG -->
+<div class="upi-config">
+  <h3>⚙️ Set Your UPI ID (for payment)</h3>
+  <input type="text" id="upiInput" placeholder="e.g. yourcafe@upi or 9876543210@paytm" />
+  <input type="text" id="upiNameInput" placeholder="Your Cafe / Owner Name" />
+  <button onclick="saveUPI()">Save UPI Details</button>
+  <div class="saved-msg" id="savedMsg">✅ Saved! Regenerating QR codes...</div>
 </div>
 
 <div class="qr-grid" id="qrGrid"></div>
 
 <div class="instructions">
-  <h3>📋 How to Use</h3>
+  <h3>📋 How It Works</h3>
   <ol>
-    <li><strong>Print</strong> this page and cut out the QR cards.</li>
-    <li><strong>Place</strong> each QR card on the corresponding table (Table 1, 2, 3).</li>
-    <li>Customers <strong>scan the QR code</strong> with their phone camera.</li>
-    <li>They browse the menu, add items to cart, and <strong>place their order</strong>.</li>
-    <li>On the <strong>Admin Panel</strong>, the order appears instantly with Table Number, items, and total.</li>
-    <li>Mark orders as <strong>Served</strong> once delivered.</li>
+    <li>Enter your <strong>UPI ID</strong> above and save.</li>
+    <li><strong>Print</strong> the QR cards and place on each table.</li>
+    <li>Customer scans QR → menu opens directly on their phone.</li>
+    <li>They add items → click <strong>Place Order & Pay</strong>.</li>
+    <li>A <strong>UPI payment screen</strong> opens — they pay via PhonePe / GPay / Paytm.</li>
+    <li>Order appears on your <strong>Admin Panel</strong> instantly.</li>
   </ol>
 </div>
 
 <script>
-  const baseURL = window.location.href.replace("qr.html", "menu.html");
+function getBase() {
+  const loc = window.location.href;
+  return loc.substring(0, loc.lastIndexOf('/') + 1);
+}
 
-  const tables = [
-    { num: "1", color: "#e84a1a" },
-    { num: "2", color: "#c07810" },
-    { num: "3", color: "#2d6a9f" }
-  ];
+function saveUPI() {
+  const upi = document.getElementById("upiInput").value.trim();
+  const name = document.getElementById("upiNameInput").value.trim();
+  if (!upi) { alert("Please enter your UPI ID first!"); return; }
+  localStorage.setItem("hc_upi_id", upi);
+  localStorage.setItem("hc_upi_name", name || "H&C Cafe");
+  document.getElementById("savedMsg").style.display = "block";
+  setTimeout(() => {
+    document.getElementById("savedMsg").style.display = "none";
+    generateQRs();
+  }, 1200);
+}
 
-  tables.forEach(t => {
-    const url = baseURL + "?table=" + t.num;
+function generateQRs() {
+  const grid = document.getElementById("qrGrid");
+  grid.innerHTML = "";
+
+  const base = getBase() + "menu.html";
+  const colors = ["#e84a1a", "#c07810", "#2d6a9f"];
+
+  [1,2,3].forEach((num, i) => {
+    const url = base + "?table=" + num;
 
     const card = document.createElement("div");
     card.className = "qr-card";
     card.innerHTML = `
-      <h2>Table ${t.num}</h2>
-      <div class="qr-sub">Scan to order</div>
-      <div class="qr-box" id="qr-${t.num}"></div>
+      <h2>Table ${num}</h2>
+      <div class="qr-sub">📷 Scan to view menu & order</div>
+      <div class="qr-box" id="qr-${num}"></div>
       <div class="qr-url">${url}</div>
-      <button class="btn-print" onclick="window.open('${url}','_blank')">🔗 Open Menu (Test)</button>
+      <a class="btn-test" href="${url}" target="_blank">🔗 Test Menu (Table ${num})</a>
     `;
+    grid.appendChild(card);
 
-    document.getElementById("qrGrid").appendChild(card);
-
-    // Generate QR
     setTimeout(() => {
-      new QRCode(document.getElementById("qr-" + t.num), {
+      new QRCode(document.getElementById("qr-" + num), {
         text: url,
-        width: 180,
-        height: 180,
-        colorDark: t.color,
+        width: 190,
+        height: 190,
+        colorDark: colors[i],
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
     }, 100);
   });
+}
+
+// Pre-fill saved values
+const savedUPI = localStorage.getItem("hc_upi_id");
+const savedName = localStorage.getItem("hc_upi_name");
+if (savedUPI) document.getElementById("upiInput").value = savedUPI;
+if (savedName) document.getElementById("upiNameInput").value = savedName;
+
+generateQRs();
 </script>
 </body>
 </html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>H&C Café – Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --card: #ffffff;
+    --accent: #c07810;
+    --accent2: #e84a1a;
+    --dark: #1a0d00;
+    --text: #2d1a00;
+    --muted: #8a7260;
+    --border: #e0d0b8;
+    --green: #2d8a50;
+    --green-bg: #e8f5ee;
+    --red: #c0392b;
+    --red-bg: #fde8e6;
+    --new-badge: #e84a1a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* TOP BAR */
+  header {
+    background: var(--dark);
+    color: #f5ead8;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--accent);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #e8a020;
+  }
+  header h1 span { color: var(--accent2); }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #liveDot {
+    width: 10px; height: 10px;
+    background: #4caf7d;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:0.5;transform:scale(1.4)}
+  }
+  #liveLabel { font-size: 0.8rem; color: #8a9a88; }
+  .btn-clear {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-clear:hover { opacity: 0.85; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 14px;
+    padding: 20px 24px 0;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 22px;
+    flex: 1;
+    min-width: 140px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 1.9rem; font-weight: 700; color: var(--text); margin-top: 4px; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.orange { color: var(--accent); }
+
+  /* FILTER TABS */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    padding: 18px 24px 8px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--dark);
+    color: #e8a020;
+    border-color: var(--dark);
+  }
+
+  /* ORDERS GRID */
+  #ordersGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 16px 24px 40px;
+  }
+
+  /* ORDER CARD */
+  .order-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { transform: translateY(16px); opacity:0; }
+    to   { transform: translateY(0);    opacity:1; }
+  }
+  .order-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+  .order-card.new-order { border-color: var(--new-badge); border-width: 2px; }
+
+  .order-header {
+    background: var(--dark);
+    color: #f5ead8;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .order-table-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #e8a020;
+  }
+  .order-meta { font-size: 0.75rem; color: #8a9a88; }
+  .badge-new {
+    background: var(--new-badge);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .order-body { padding: 14px 16px; }
+  .order-items { list-style: none; margin-bottom: 12px; }
+  .order-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.88rem;
+  }
+  .order-items li:last-child { border-bottom: none; }
+  .item-qty { color: var(--muted); margin-right: 4px; }
+
+  .order-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .order-total {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+  .status-btns { display: flex; gap: 8px; }
+  .btn-done {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid #a8d8bc;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-done:hover { background: #c8ead6; }
+  .btn-delete {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid #f5b8b0;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .btn-delete:hover { background: #fbc8c4; }
+  .served-badge {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid #a8d8bc;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* EMPTY */
+  #emptyMsg {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  #emptyMsg .emoji { font-size: 3.5rem; margin-bottom: 12px; }
+  #emptyMsg h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 6px; color: var(--text); }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: var(--dark);
+    color: #e8a020;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    border-left: 4px solid var(--new-badge);
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    max-width: 280px;
+  }
+  #toast.show { transform: translateX(0); }
+
+  @media (max-width: 600px) {
+    .stats-row, .filter-row { padding-left: 14px; padding-right: 14px; }
+    #ordersGrid { padding: 14px; }
+    header { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>H<span>&</span>C Café <span style="font-size:1rem;color:#8a9a88;">– Admin</span></h1>
+  <div class="header-right">
+    <div id="liveDot"></div>
+    <span id="liveLabel">Live Orders</span>
+    <button class="btn-clear" onclick="clearAll()">Clear All</button>
+  </div>
+</header>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label">Total Orders</div>
+    <div class="stat-value orange" id="statTotal">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Pending</div>
+    <div class="stat-value" id="statPending">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Revenue Today</div>
+    <div class="stat-value green" id="statRevenue">₹0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Active Tables</div>
+    <div class="stat-value orange" id="statTables">0</div>
+  </div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-btn active" onclick="setFilter('all', this)">All Orders</button>
+  <button class="filter-btn" onclick="setFilter('1', this)">Table 1</button>
+  <button class="filter-btn" onclick="setFilter('2', this)">Table 2</button>
+  <button class="filter-btn" onclick="setFilter('3', this)">Table 3</button>
+  <button class="filter-btn" onclick="setFilter('new', this)">🔴 New Only</button>
+  <button class="filter-btn" onclick="setFilter('served', this)">✅ Served</button>
+</div>
+
+<div id="ordersGrid"></div>
+
+<div id="toast">🔔 New order received!</div>
+
+<script>
+let currentFilter = "all";
+let lastOrderCount = 0;
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem("hc_orders") || "[]");
+}
+
+function saveOrders(orders) {
+  localStorage.setItem("hc_orders", JSON.stringify(orders));
+}
+
+function markServed(id) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (o) o.status = "served";
+  saveOrders(orders);
+  render();
+}
+
+function deleteOrder(id) {
+  let orders = getOrders().filter(x => x.id !== id);
+  saveOrders(orders);
+  render();
+}
+
+function clearAll() {
+  if (confirm("Clear ALL orders? This cannot be undone.")) {
+    localStorage.removeItem("hc_orders");
+    render();
+  }
+}
+
+function render() {
+  let orders = getOrders();
+  const grid = document.getElementById("ordersGrid");
+  grid.innerHTML = "";
+
+  // Stats
+  const today = new Date().toLocaleDateString();
+  const todayOrders = orders.filter(o => o.date === today);
+  document.getElementById("statTotal").innerText = orders.length;
+  document.getElementById("statPending").innerText = orders.filter(o=>o.status==="new").length;
+  document.getElementById("statRevenue").innerText = "₹" + todayOrders.reduce((s,o)=>s+o.total,0);
+  const tables = [...new Set(orders.filter(o=>o.status==="new").map(o=>o.table))];
+  document.getElementById("statTables").innerText = tables.length;
+
+  // Filter
+  let filtered = orders;
+  if (currentFilter === "new")    filtered = orders.filter(o => o.status === "new");
+  else if (currentFilter === "served") filtered = orders.filter(o => o.status === "served");
+  else if (["1","2","3"].includes(currentFilter)) filtered = orders.filter(o => o.table === currentFilter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div id="emptyMsg"><div class="emoji">🍽️</div><h3>No orders yet</h3><p>Waiting for customers to scan QR and order...</p></div>`;
+    return;
+  }
+
+  // Sort newest first
+  [...filtered].reverse().forEach(order => {
+    const card = document.createElement("div");
+    card.className = "order-card" + (order.status==="new" ? " new-order" : "");
+
+    const itemsHTML = order.items.map(i =>
+      `<li><span><span class="item-qty">${i.qty}×</span>${i.name}</span><span>₹${i.subtotal}</span></li>`
+    ).join("");
+
+    const actionHTML = order.status === "served"
+      ? `<span class="served-badge">✅ Served</span>`
+      : `<div class="status-btns">
+           <button class="btn-done" onclick="markServed(${order.id})">✅ Mark Served</button>
+           <button class="btn-delete" onclick="deleteOrder(${order.id})">🗑</button>
+         </div>`;
+
+    card.innerHTML = `
+      <div class="order-header">
+        <div>
+          <div class="order-table-label">Table ${order.table}</div>
+          <div class="order-meta">${order.date} · ${order.time}</div>
+        </div>
+        ${order.status === "new" ? '<span class="badge-new">NEW</span>' : ''}
+      </div>
+      <div class="order-body">
+        <ul class="order-items">${itemsHTML}</ul>
+      </div>
+      <div class="order-footer">
+        <div class="order-total">Total: ₹${order.total}</div>
+        ${actionHTML}
+      </div>`;
+
+    grid.appendChild(card);
+  });
+}
+
+// Poll for new orders every 3 seconds
+function poll() {
+  const orders = getOrders();
+  if (orders.length > lastOrderCount && lastOrderCount !== 0) {
+    showToast();
+  }
+  lastOrderCount = orders.length;
+  render();
+}
+
+function showToast() {
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 4000);
+}
+
+setInterval(poll, 3000);
+poll();
+</script>
+</body>
+</html>

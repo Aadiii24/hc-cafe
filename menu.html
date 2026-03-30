@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>H&C Café – Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0f0a06;
+    --card: #1a1209;
+    --accent: #e8a020;
+    --accent2: #ff6b35;
+    --text: #f5ead8;
+    --muted: #8a7a65;
+    --border: #2e2010;
+    --green: #4caf7d;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 120px;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a0d00 0%, #2d1a00 50%, #1a0d00 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 20px 16px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(232,160,32,0.15);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  header h1 span { color: var(--accent2); }
+  #tableTitle {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--accent);
+    color: #0f0a06;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 4px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* CATEGORY TABS */
+  .tab-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 14px 12px;
+    background: #140c04;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+  .tab-scroll::-webkit-scrollbar { display:none; }
+  .tab-btn {
+    white-space: nowrap;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--accent);
+    color: #0f0a06;
+    border-color: var(--accent);
+  }
+
+  /* MENU SECTIONS */
+  .menu-section { display:none; padding: 16px 12px 0; }
+  .menu-section.active { display:block; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title span { font-size: 1.4rem; }
+
+  /* ITEM CARD */
+  .item-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+  .item-card:hover { border-color: var(--accent); }
+  .item-info { flex:1; }
+  .item-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .item-price {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-top: 3px;
+  }
+  .item-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qty-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items:center; justify-content:center;
+    transition: all 0.15s;
+  }
+  .qty-btn:hover { background: var(--accent); color: #0f0a06; }
+  .qty-display {
+    min-width: 22px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  /* CART FOOTER */
+  #cartFooter {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(135deg, #1a0d00, #2d1a00);
+    border-top: 2px solid var(--accent);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 200;
+    box-shadow: 0 -4px 30px rgba(232,160,32,0.2);
+  }
+  #cartSummary { font-size: 0.9rem; color: var(--muted); }
+  #cartSummary strong { color: var(--accent); font-size: 1.1rem; }
+  #orderBtn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0f0a06;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(232,160,32,0.3);
+  }
+  #orderBtn:hover { transform: scale(1.04); box-shadow: 0 6px 25px rgba(232,160,32,0.5); }
+
+  /* CONFIRM MODAL */
+  #confirmModal {
+    display:none;
+    position: fixed; inset:0;
+    background: rgba(0,0,0,0.85);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #confirmModal.show { display:flex; }
+  .modal-box {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    padding: 28px 24px;
+    max-width: 420px;
+    width: 100%;
+    animation: popIn 0.25s ease;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity:0; }
+    to   { transform: scale(1);    opacity:1; }
+  }
+  .modal-box h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+  .modal-box .modal-table {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .modal-items { list-style: none; margin-bottom: 16px; }
+  .modal-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .modal-items li:last-child { border-bottom:none; }
+  .modal-total {
+    text-align: right;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+  }
+  .modal-btns { display:flex; gap:10px; }
+  .btn-cancel {
+    flex:1;
+    padding: 11px;
+    border-radius: 30px;
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-confirm {
+    flex:2;
+    padding: 11px;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0f0a06;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  /* SUCCESS */
+  #successScreen {
+    display:none;
+    position: fixed; inset:0;
+    background: var(--bg);
+    z-index: 1000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+  }
+  #successScreen.show { display:flex; }
+  .success-icon { font-size: 5rem; margin-bottom: 20px; animation: bounce 0.6s ease; }
+  @keyframes bounce {
+    0%,100%{transform:scale(1)} 50%{transform:scale(1.25)}
+  }
+  #successScreen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  #successScreen p { color: var(--muted); font-size: 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>H<span>&</span>C Café</h1>
+  <div id="tableTitle">Table: --</div>
+</header>
+
+<div class="tab-scroll" id="tabs"></div>
+
+<div id="menuContainer"></div>
+
+<div id="cartFooter">
+  <div id="cartSummary">
+    <div id="cartCount">0 items</div>
+    <strong>₹<span id="total">0</span></strong>
+  </div>
+  <button id="orderBtn" onclick="openConfirm()">🛒 Place Order</button>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal">
+  <div class="modal-box">
+    <h2>Confirm Order</h2>
+    <div class="modal-table" id="modalTable"></div>
+    <ul class="modal-items" id="modalItems"></ul>
+    <div class="modal-total" id="modalTotal"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmOrder()">✅ Confirm Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="successScreen">
+  <div class="success-icon">🎉</div>
+  <h2>Order Placed!</h2>
+  <p>Your order has been sent to the kitchen.<br>Sit back and relax!</p>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const table = params.get("table") || "1";
+document.getElementById("tableTitle").innerText = "Table No: " + table;
+
+const foodItems = [
+  // ☕ Hot Beverages
+  { name: "Masala Chai",     price: 39,  category: "Hot Beverages" },
+  { name: "Adrak Chai",      price: 39,  category: "Hot Beverages" },
+  { name: "Elaichi Chai",    price: 39,  category: "Hot Beverages" },
+  { name: "Hot Bournvita",   price: 79,  category: "Hot Beverages" },
+  { name: "Hot Espresso",    price: 89,  category: "Hot Beverages" },
+  { name: "Hot Mochaccino",  price: 89,  category: "Hot Beverages" },
+  { name: "Hot Hazelnut",    price: 89,  category: "Hot Beverages" },
+
+  // 🥤 Cold Drinks
+  { name: "Coca Cola",       price: 40,  category: "Cold Drinks" },
+  { name: "Sprite",          price: 40,  category: "Cold Drinks" },
+  { name: "Thumbs Up",       price: 40,  category: "Cold Drinks" },
+  { name: "Limca",           price: 40,  category: "Cold Drinks" },
+  { name: "Maaza",           price: 45,  category: "Cold Drinks" },
+  { name: "Red Bull",        price: 110, category: "Cold Drinks" },
+
+  // 🥤 Shakes
+  { name: "Kitkat Shake",    price: 119, category: "Shakes" },
+  { name: "Oreo Shake",      price: 119, category: "Shakes" },
+  { name: "Strawberry Shake",price: 129, category: "Shakes" },
+  { name: "Chocolate Shake", price: 139, category: "Shakes" },
+  { name: "Mango Shake",     price: 129, category: "Shakes" },
+
+  // 🍟 Starters
+  { name: "Veg Manchurian",  price: 129, category: "Starters" },
+  { name: "Paneer 65",       price: 149, category: "Starters" },
+  { name: "Crispy Corn",     price: 119, category: "Starters" },
+  { name: "Peri Peri Fries", price: 99,  category: "Starters" },
+  { name: "Cheese Fries",    price: 119, category: "Starters" },
+  { name: "Veg Spring Roll", price: 109, category: "Starters" },
+  { name: "Hara Bhara Kebab",price: 139, category: "Starters" },
+
+  // 🍕 Pizza
+  { name: "Margherita Pizza",      price: 159, category: "Pizza" },
+  { name: "Veggie Delight Pizza",  price: 169, category: "Pizza" },
+  { name: "Tandoori Paneer Pizza", price: 179, category: "Pizza" },
+  { name: "Peri Peri Pizza",       price: 179, category: "Pizza" },
+  { name: "Veg Makhani Pizza",     price: 189, category: "Pizza" },
+  { name: "Four Cheese Pizza",     price: 189, category: "Pizza" },
+  { name: "Jack & Jill Pizza",     price: 199, category: "Pizza" },
+  { name: "H&C Special Pizza",     price: 199, category: "Pizza" },
+
+  // 🥪 Sandwich
+  { name: "Bread Butter Grill",              price: 69,  category: "Sandwich" },
+  { name: "Veg Cheese Grill",                price: 99,  category: "Sandwich" },
+  { name: "Veg Peri Peri Grill Sandwich",    price: 119, category: "Sandwich" },
+  { name: "Fully Cheesy Grill Sandwich",     price: 129, category: "Sandwich" },
+  { name: "Veg Tandoori Paneer Sandwich",    price: 129, category: "Sandwich" },
+  { name: "Veg Makhani Grill Sandwich",      price: 129, category: "Sandwich" },
+  { name: "Cheese Corn Grill Sandwich",      price: 139, category: "Sandwich" },
+  { name: "H&C Special Grill Sandwich",      price: 159, category: "Sandwich" },
+
+  // 🍜 Maggi
+  { name: "Masala Maggi",          price: 49,  category: "Maggi" },
+  { name: "Veg Tadka Maggi",       price: 89,  category: "Maggi" },
+  { name: "Butter & Cheese Maggi", price: 99,  category: "Maggi" },
+  { name: "Veg Tandoori Maggi",    price: 99,  category: "Maggi" },
+  { name: "Veg Peri Peri Maggi",   price: 99,  category: "Maggi" },
+  { name: "Veg Chilly Garlic Maggi",price: 99, category: "Maggi" },
+
+  // 🍝 Pasta
+  { name: "Red Gravy Pasta",   price: 139, category: "Pasta" },
+  { name: "White Gravy Pasta", price: 149, category: "Pasta" }
+];
+
+const categoryIcons = {
+  "Hot Beverages": "☕",
+  "Cold Drinks":   "🥤",
+  "Shakes":        "🧋",
+  "Starters":      "🍟",
+  "Pizza":         "🍕",
+  "Sandwich":      "🥪",
+  "Maggi":         "🍜",
+  "Pasta":         "🍝"
+};
+
+let cart = {};
+
+// Build grouped data
+const grouped = {};
+foodItems.forEach(item => {
+  if (!grouped[item.category]) grouped[item.category] = [];
+  grouped[item.category].push(item);
+});
+
+// Render tabs
+const tabsEl = document.getElementById("tabs");
+const menuEl = document.getElementById("menuContainer");
+const categories = Object.keys(grouped);
+
+categories.forEach((cat, i) => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (i===0?" active":"");
+  btn.innerText = (categoryIcons[cat]||"") + " " + cat;
+  btn.onclick = () => switchTab(cat, btn);
+  tabsEl.appendChild(btn);
+
+  const section = document.createElement("div");
+  section.className = "menu-section" + (i===0?" active":"");
+  section.id = "sec-" + cat;
+
+  section.innerHTML = `<div class="section-title"><span>${categoryIcons[cat]||"🍽"}</span>${cat}</div>`;
+
+  grouped[cat].forEach(item => {
+    const safeId = "item-" + item.name.replace(/[^a-zA-Z0-9]/g,"_");
+    const card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML = `
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${item.price}</div>
+      </div>
+      <div class="item-controls">
+        <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},-1)">−</button>
+        <span class="qty-display" id="${safeId}">0</span>
+        <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},1)">+</button>
+      </div>`;
+    section.appendChild(card);
+  });
+
+  menuEl.appendChild(section);
+});
+
+function switchTab(cat, btn) {
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".menu-section").forEach(s=>s.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("sec-"+cat).classList.add("active");
+}
+
+function changeQty(name, price, delta) {
+  if (!cart[name]) cart[name] = { qty:0, price };
+  cart[name].qty += delta;
+  if (cart[name].qty <= 0) { delete cart[name]; }
+  const safeId = "item-" + name.replace(/[^a-zA-Z0-9]/g,"_");
+  document.getElementById(safeId).innerText = cart[name]?.qty || 0;
+  updateTotal();
+}
+
+function updateTotal() {
+  let total = 0, count = 0;
+  for (let k in cart) { total += cart[k].qty * cart[k].price; count += cart[k].qty; }
+  document.getElementById("total").innerText = total;
+  document.getElementById("cartCount").innerText = count + (count===1?" item":" items");
+}
+
+function openConfirm() {
+  const items = Object.entries(cart);
+  if (items.length === 0) { alert("Please select at least one item!"); return; }
+
+  document.getElementById("modalTable").innerText = "Table No: " + table;
+  const ul = document.getElementById("modalItems");
+  ul.innerHTML = "";
+  let total = 0;
+  items.forEach(([name, info]) => {
+    const li = document.createElement("li");
+    const sub = info.qty * info.price;
+    total += sub;
+    li.innerHTML = `<span>${name} × ${info.qty}</span><span>₹${sub}</span>`;
+    ul.appendChild(li);
+  });
+  document.getElementById("modalTotal").innerText = "Total: ₹" + total;
+  document.getElementById("confirmModal").classList.add("show");
+}
+
+function closeConfirm() {
+  document.getElementById("confirmModal").classList.remove("show");
+}
+
+function confirmOrder() {
+  const items = Object.entries(cart).map(([name,info]) => ({
+    name, qty: info.qty, price: info.price, subtotal: info.qty*info.price
+  }));
+  let total = items.reduce((s,i) => s+i.subtotal, 0);
+
+  const order = {
+    id: Date.now(),
+    table,
+    items,
+    total,
+    time: new Date().toLocaleTimeString(),
+    date: new Date().toLocaleDateString(),
+    status: "new"
+  };
+
+  const orders = JSON.parse(localStorage.getItem("hc_orders") || "[]");
+  orders.push(order);
+  localStorage.setItem("hc_orders", JSON.stringify(orders));
+
+  closeConfirm();
+  document.getElementById("successScreen").classList.add("show");
+  cart = {};
+  setTimeout(() => {
+    document.getElementById("successScreen").classList.remove("show");
+    location.reload();
+  }, 3000);
+}
+</script>
+</body>
+</html>

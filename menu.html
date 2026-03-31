@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>H&C Café – Menu</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0f0a06; --card: #1a1209; --accent: #e8a020; --accent2: #ff6b35;
-    --text: #f5ead8; --muted: #8a7a65; --border: #2e2010; --green: #4caf7d;
+    --bg:#0f0a06; --card:#1a1209; --accent:#e8a020; --accent2:#ff6b35;
+    --text:#f5ead8; --muted:#8a7a65; --border:#2e2010; --green:#4caf7d;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; padding-bottom:130px; }
 
-  header {
-    background:linear-gradient(135deg,#1a0d00,#2d1a00,#1a0d00);
-    border-bottom:2px solid var(--accent);
-    padding:18px 16px 14px; text-align:center;
-    position:sticky; top:0; z-index:100;
-    box-shadow:0 4px 30px rgba(232,160,32,0.15);
-  }
+  header { background:linear-gradient(135deg,#1a0d00,#2d1a00,#1a0d00); border-bottom:2px solid var(--accent); padding:18px 16px 14px; text-align:center; position:sticky; top:0; z-index:100; box-shadow:0 4px 30px rgba(232,160,32,0.15); }
   header h1 { font-family:'Playfair Display',serif; font-size:1.9rem; color:var(--accent); letter-spacing:2px; }
   header h1 span { color:var(--accent2); }
-  #tableTitle {
-    display:inline-block; margin-top:6px; background:var(--accent);
-    color:#0f0a06; font-weight:700; font-size:0.82rem;
-    padding:4px 16px; border-radius:20px; letter-spacing:1px;
-  }
+  #tableTitle { display:inline-block; margin-top:6px; background:var(--accent); color:#0f0a06; font-weight:700; font-size:0.82rem; padding:4px 16px; border-radius:20px; letter-spacing:1px; }
 
   .tab-scroll { display:flex; overflow-x:auto; gap:8px; padding:12px; background:#140c04; border-bottom:1px solid var(--border); scrollbar-width:none; }
   .tab-scroll::-webkit-scrollbar { display:none; }
   .tab-btn { white-space:nowrap; background:var(--card); border:1px solid var(--border); color:var(--muted); padding:7px 15px; border-radius:20px; font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
-  .tab-btn.active, .tab-btn:hover { background:var(--accent); color:#0f0a06; border-color:var(--accent); }
+  .tab-btn.active,.tab-btn:hover { background:var(--accent); color:#0f0a06; border-color:var(--accent); }
 
   .menu-section { display:none; padding:14px 12px 0; }
   .menu-section.active { display:block; }
@@ -52,11 +42,10 @@
   #orderBtn { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0f0a06; border:none; padding:12px 22px; border-radius:30px; font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.9rem; cursor:pointer; transition:transform 0.15s; box-shadow:0 4px 20px rgba(232,160,32,0.3); }
   #orderBtn:hover { transform:scale(1.04); }
 
-  /* MODALS */
   .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.87); z-index:999; align-items:center; justify-content:center; padding:16px; }
   .modal-overlay.show { display:flex; }
   .modal-box { background:var(--card); border:2px solid var(--accent); border-radius:20px; padding:24px 20px; max-width:400px; width:100%; animation:popIn 0.25s ease; max-height:90vh; overflow-y:auto; }
-  @keyframes popIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  @keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
   .modal-box h2 { font-family:'Playfair Display',serif; color:var(--accent); font-size:1.3rem; margin-bottom:6px; }
   .modal-sub { font-size:0.82rem; color:var(--muted); margin-bottom:14px; }
   .modal-items { list-style:none; margin-bottom:12px; }
@@ -67,7 +56,6 @@
   .btn-cancel { flex:1; padding:11px; border-radius:30px; border:1px solid var(--muted); background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-weight:600; cursor:pointer; }
   .btn-next { flex:2; padding:11px; border-radius:30px; border:none; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0f0a06; font-family:'DM Sans',sans-serif; font-weight:700; cursor:pointer; font-size:0.92rem; }
 
-  /* PAY MODAL */
   #payModal .modal-box { border-color:#4caf7d; }
   #payModal h2 { color:#4caf7d; }
   .pay-amount { background:#0f1f14; border:1px solid #2a5a3a; border-radius:12px; padding:14px; text-align:center; margin-bottom:18px; }
@@ -80,23 +68,27 @@
   .upi-app-btn:hover { border-color:#4caf7d; background:#0f1f14; }
   .app-icon { font-size:1.7rem; display:block; margin-bottom:4px; }
   .app-name { font-size:0.7rem; color:var(--muted); font-weight:600; }
-
   .or-divider { text-align:center; color:var(--muted); font-size:0.78rem; margin:8px 0; }
   .upi-id-box { background:#111; border:1px dashed var(--border); border-radius:10px; padding:11px 13px; display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; gap:10px; }
   .upi-id-box .ilabel { font-size:0.72rem; color:var(--muted); }
   .upi-id-box .ival { font-size:0.88rem; color:var(--text); font-weight:600; word-break:break-all; }
   .copy-btn { background:var(--accent); color:#0f0a06; border:none; padding:6px 12px; border-radius:8px; font-size:0.72rem; font-weight:700; cursor:pointer; white-space:nowrap; }
-
   .no-upi-warn { background:#2a1500; border:1px solid var(--accent2); border-radius:10px; padding:12px; font-size:0.82rem; color:#ffaa66; margin-bottom:14px; text-align:center; }
 
   .btn-paid { width:100%; padding:13px; border-radius:30px; border:none; background:linear-gradient(135deg,#2d8a50,#4caf7d); color:#fff; font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.95rem; cursor:pointer; margin-top:6px; }
   .btn-back-pay { width:100%; padding:10px; border-radius:30px; border:1px solid var(--muted); background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-weight:600; cursor:pointer; margin-top:10px; font-size:0.85rem; }
 
-  /* SUCCESS */
+  /* LOADING OVERLAY */
+  #loadingOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+  #loadingOverlay.show { display:flex; }
+  .spinner { width:48px; height:48px; border:4px solid #333; border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #loadingOverlay p { color:var(--accent); font-weight:600; font-size:0.95rem; }
+
   #successScreen { display:none; position:fixed; inset:0; background:var(--bg); z-index:1000; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; }
   #successScreen.show { display:flex; }
   .success-icon { font-size:5rem; margin-bottom:20px; animation:bounce 0.6s ease; }
-  @keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+  @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
   #successScreen h2 { font-family:'Playfair Display',serif; font-size:1.9rem; color:var(--green); margin-bottom:8px; }
   #successScreen p { color:var(--muted); font-size:0.95rem; line-height:1.7; }
 </style>
@@ -119,7 +111,7 @@
   <button id="orderBtn" onclick="openConfirm()">🛒 Order & Pay</button>
 </div>
 
-<!-- ORDER CONFIRM MODAL -->
+<!-- ORDER CONFIRM -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-box">
     <h2>Your Order</h2>
@@ -133,36 +125,33 @@
   </div>
 </div>
 
-<!-- PAYMENT MODAL -->
+<!-- PAYMENT -->
 <div class="modal-overlay" id="payModal">
   <div class="modal-box">
     <h2>💳 Pay Now</h2>
-
     <div class="pay-amount">
       <div class="plabel">Amount to Pay</div>
       <div class="pamount" id="payAmount">₹0</div>
       <div class="ptable" id="payTable"></div>
     </div>
-
-    <div id="noUpiWarn" class="no-upi-warn" style="display:none;">
-      ⚠️ UPI not set up yet. Ask the cafe to configure payment.
-    </div>
-
+    <div id="noUpiWarn" class="no-upi-warn" style="display:none;">⚠️ UPI not configured. Ask the cafe to set up payment.</div>
     <div id="upiSection">
       <div class="upi-apps" id="upiAppBtns"></div>
-      <div class="or-divider">— or pay manually with UPI ID —</div>
+      <div class="or-divider">— or pay manually —</div>
       <div class="upi-id-box">
-        <div>
-          <div class="ilabel">UPI ID</div>
-          <div class="ival" id="upiIdDisplay">—</div>
-        </div>
+        <div><div class="ilabel">UPI ID</div><div class="ival" id="upiIdDisplay">—</div></div>
         <button class="copy-btn" onclick="copyUPI()">Copy</button>
       </div>
     </div>
-
     <button class="btn-paid" onclick="confirmPaid()">✅ I've Paid — Confirm Order</button>
-    <button class="btn-back-pay" onclick="closeModal('payModal');openConfirm()">← Back to Order</button>
+    <button class="btn-back-pay" onclick="closeModal('payModal');openConfirm()">← Back</button>
   </div>
+</div>
+
+<!-- LOADING -->
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <p>Sending your order...</p>
 </div>
 
 <!-- SUCCESS -->
@@ -173,10 +162,16 @@
 </div>
 
 <script>
+// ─── TABLE & CONFIG ────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
-const table = params.get("table") || "1";
+const table  = params.get("table") || "1";
 document.getElementById("tableTitle").innerText = "Table No: " + table;
 
+// These are stored by the owner on the index/admin page
+const API_KEY = localStorage.getItem("hc_api_key") || "";
+const BIN_ID  = localStorage.getItem("hc_bin_id")  || "";
+
+// ─── MENU DATA ─────────────────────────────────────────────
 const foodItems = [
   { name:"Masala Chai",           price:39,  category:"Hot Beverages" },
   { name:"Adrak Chai",            price:39,  category:"Hot Beverages" },
@@ -232,12 +227,10 @@ const foodItems = [
 const icons = { "Hot Beverages":"☕","Cold Drinks":"🥤","Shakes":"🧋","Starters":"🍟","Pizza":"🍕","Sandwich":"🥪","Maggi":"🍜","Pasta":"🍝" };
 let cart = {};
 
-// Build menu
+// ─── BUILD MENU ────────────────────────────────────────────
 const grouped = {};
 foodItems.forEach(i => { if(!grouped[i.category]) grouped[i.category]=[]; grouped[i.category].push(i); });
-const cats = Object.keys(grouped);
-
-cats.forEach((cat, idx) => {
+Object.keys(grouped).forEach((cat, idx) => {
   const btn = document.createElement("button");
   btn.className = "tab-btn" + (idx===0?" active":"");
   btn.innerText = (icons[cat]||"") + " " + cat;
@@ -253,112 +246,125 @@ cats.forEach((cat, idx) => {
   sec.className = "menu-section" + (idx===0?" active":"");
   sec.id = "sec-"+idx;
   sec.innerHTML = `<div class="section-title"><span>${icons[cat]||"🍽"}</span>${cat}</div>`;
-
   grouped[cat].forEach(item => {
-    const sid = "i_" + item.name.replace(/[^a-zA-Z0-9]/g,"_");
-    const div = document.createElement("div");
-    div.className = "item-card";
-    div.innerHTML = `
+    const sid = "i_"+item.name.replace(/[^a-zA-Z0-9]/g,"_");
+    const d = document.createElement("div");
+    d.className = "item-card";
+    d.innerHTML = `
       <div><div class="item-name">${item.name}</div><div class="item-price">₹${item.price}</div></div>
       <div class="item-controls">
         <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},-1)">−</button>
         <span class="qty-display" id="${sid}">0</span>
         <button class="qty-btn" onclick="changeQty('${item.name}',${item.price},1)">+</button>
       </div>`;
-    sec.appendChild(div);
+    sec.appendChild(d);
   });
   document.getElementById("menuContainer").appendChild(sec);
 });
 
 function changeQty(name, price, delta) {
-  if (!cart[name]) cart[name] = {qty:0, price};
-  cart[name].qty = Math.max(0, cart[name].qty + delta);
-  if (cart[name].qty === 0) delete cart[name];
-  const sid = "i_" + name.replace(/[^a-zA-Z0-9]/g,"_");
-  document.getElementById(sid).innerText = cart[name]?.qty || 0;
+  if(!cart[name]) cart[name]={qty:0,price};
+  cart[name].qty = Math.max(0, cart[name].qty+delta);
+  if(cart[name].qty===0) delete cart[name];
+  document.getElementById("i_"+name.replace(/[^a-zA-Z0-9]/g,"_")).innerText = cart[name]?.qty||0;
   updateTotal();
 }
-
 function updateTotal() {
-  let total=0, count=0;
-  for(let k in cart){ total+=cart[k].qty*cart[k].price; count+=cart[k].qty; }
-  document.getElementById("total").innerText = total;
-  document.getElementById("cartCount").innerText = count + (count===1?" item":" items");
+  let total=0,count=0;
+  for(let k in cart){total+=cart[k].qty*cart[k].price;count+=cart[k].qty;}
+  document.getElementById("total").innerText=total;
+  document.getElementById("cartCount").innerText=count+(count===1?" item":" items");
 }
-
-function closeModal(id) { document.getElementById(id).classList.remove("show"); }
+function closeModal(id){document.getElementById(id).classList.remove("show");}
 
 function openConfirm() {
-  if(Object.keys(cart).length===0){ alert("Please select at least one item!"); return; }
-  document.getElementById("modalSub").innerText = "Table No: " + table;
-  const ul = document.getElementById("modalItems");
-  ul.innerHTML = "";
-  let total = 0;
+  if(Object.keys(cart).length===0){alert("Please select at least one item!");return;}
+  document.getElementById("modalSub").innerText="Table No: "+table;
+  const ul=document.getElementById("modalItems"); ul.innerHTML=""; let total=0;
   for(let name in cart){
-    const info = cart[name]; const sub = info.qty*info.price; total+=sub;
-    const li = document.createElement("li");
-    li.innerHTML = `<span>${name} × ${info.qty}</span><span>₹${sub}</span>`;
+    const info=cart[name],sub=info.qty*info.price; total+=sub;
+    const li=document.createElement("li");
+    li.innerHTML=`<span>${name} × ${info.qty}</span><span>₹${sub}</span>`;
     ul.appendChild(li);
   }
-  document.getElementById("modalTotal").innerText = "Total: ₹" + total;
+  document.getElementById("modalTotal").innerText="Total: ₹"+total;
   document.getElementById("confirmModal").classList.add("show");
 }
 
 function openPay() {
   closeModal("confirmModal");
-  const total = document.getElementById("total").innerText;
-  document.getElementById("payAmount").innerText = "₹" + total;
-  document.getElementById("payTable").innerText = "Table " + table;
-
-  const upiId   = localStorage.getItem("hc_upi_id") || "";
-  const upiName = localStorage.getItem("hc_upi_name") || "HC Cafe";
-  document.getElementById("upiIdDisplay").innerText = upiId || "Not configured";
-
-  if (!upiId) {
-    document.getElementById("noUpiWarn").style.display = "block";
-    document.getElementById("upiSection").style.display = "none";
+  const total=document.getElementById("total").innerText;
+  document.getElementById("payAmount").innerText="₹"+total;
+  document.getElementById("payTable").innerText="Table "+table;
+  const upiId=localStorage.getItem("hc_upi_id")||"";
+  const upiName=localStorage.getItem("hc_upi_name")||"HC Cafe";
+  document.getElementById("upiIdDisplay").innerText=upiId||"Not configured";
+  if(!upiId){
+    document.getElementById("noUpiWarn").style.display="block";
+    document.getElementById("upiSection").style.display="none";
   } else {
-    document.getElementById("noUpiWarn").style.display = "none";
-    document.getElementById("upiSection").style.display = "block";
-
-    const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${total}&cu=INR&tn=${encodeURIComponent("Table "+table+" Order")}`;
-    const apps = [
-      {name:"PhonePe", icon:"🟣"},{name:"GPay",   icon:"🔵"},
-      {name:"Paytm",   icon:"🔷"},{name:"BHIM",   icon:"🇮🇳"},
-      {name:"Amazon Pay",icon:"🟠"},{name:"Any UPI",icon:"💳"}
-    ];
-    const btns = document.getElementById("upiAppBtns");
-    btns.innerHTML = "";
-    apps.forEach(app => {
-      const a = document.createElement("a");
-      a.className = "upi-app-btn"; a.href = upiUrl;
-      a.innerHTML = `<span class="app-icon">${app.icon}</span><span class="app-name">${app.name}</span>`;
+    document.getElementById("noUpiWarn").style.display="none";
+    document.getElementById("upiSection").style.display="block";
+    const upiUrl=`upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${total}&cu=INR&tn=${encodeURIComponent("Table "+table+" Order")}`;
+    const apps=[{name:"PhonePe",icon:"🟣"},{name:"GPay",icon:"🔵"},{name:"Paytm",icon:"🔷"},{name:"BHIM",icon:"🇮🇳"},{name:"Amazon Pay",icon:"🟠"},{name:"Any UPI",icon:"💳"}];
+    const btns=document.getElementById("upiAppBtns"); btns.innerHTML="";
+    apps.forEach(app=>{
+      const a=document.createElement("a"); a.className="upi-app-btn"; a.href=upiUrl;
+      a.innerHTML=`<span class="app-icon">${app.icon}</span><span class="app-name">${app.name}</span>`;
       btns.appendChild(a);
     });
   }
   document.getElementById("payModal").classList.add("show");
 }
 
-function copyUPI() {
-  const upi = localStorage.getItem("hc_upi_id") || "";
-  if (!upi) return;
-  navigator.clipboard.writeText(upi).then(() => {
-    const b = document.querySelector(".copy-btn"); b.innerText="Copied!";
-    setTimeout(()=>b.innerText="Copy", 2000);
+function copyUPI(){
+  const upi=localStorage.getItem("hc_upi_id")||"";
+  if(!upi)return;
+  navigator.clipboard.writeText(upi).then(()=>{
+    const b=document.querySelector(".copy-btn"); b.innerText="Copied!";
+    setTimeout(()=>b.innerText="Copy",2000);
   });
 }
 
-function confirmPaid() {
+// ─── PLACE ORDER → SAVE TO JSONBIN ────────────────────────
+async function confirmPaid() {
   closeModal("payModal");
-  const items = Object.entries(cart).map(([name,info])=>({name,qty:info.qty,price:info.price,subtotal:info.qty*info.price}));
-  const total = items.reduce((s,i)=>s+i.subtotal,0);
-  const order = { id:Date.now(), table, items, total, time:new Date().toLocaleTimeString(), date:new Date().toLocaleDateString(), status:"new", payment:"UPI" };
-  const orders = JSON.parse(localStorage.getItem("hc_orders")||"[]");
-  orders.push(order);
-  localStorage.setItem("hc_orders", JSON.stringify(orders));
-  cart = {};
+  document.getElementById("loadingOverlay").classList.add("show");
+
+  const items=Object.entries(cart).map(([name,info])=>({name,qty:info.qty,price:info.price,subtotal:info.qty*info.price}));
+  const total=items.reduce((s,i)=>s+i.subtotal,0);
+  const newOrder={ id:Date.now(), table, items, total, time:new Date().toLocaleTimeString(), date:new Date().toLocaleDateString(), status:"new", payment:"UPI" };
+
+  try {
+    if (API_KEY && BIN_ID) {
+      // Fetch current orders, append new one, save back
+      const res  = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{"X-Master-Key":API_KEY} });
+      const data = await res.json();
+      const orders = (data.record.orders || []);
+      orders.push(newOrder);
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method:"PUT",
+        headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},
+        body: JSON.stringify({orders})
+      });
+    } else {
+      // Fallback to localStorage if no JSONBin configured
+      const orders=JSON.parse(localStorage.getItem("hc_orders")||"[]");
+      orders.push(newOrder);
+      localStorage.setItem("hc_orders",JSON.stringify(orders));
+    }
+  } catch(e) {
+    console.error("Order save error:", e);
+    // Still save locally as backup
+    const orders=JSON.parse(localStorage.getItem("hc_orders")||"[]");
+    orders.push(newOrder);
+    localStorage.setItem("hc_orders",JSON.stringify(orders));
+  }
+
+  document.getElementById("loadingOverlay").classList.remove("show");
+  cart={};
   document.getElementById("successScreen").classList.add("show");
-  setTimeout(()=>{ document.getElementById("successScreen").classList.remove("show"); location.reload(); }, 3500);
+  setTimeout(()=>{ document.getElementById("successScreen").classList.remove("show"); location.reload(); },3500);
 }
 </script>
 </body>

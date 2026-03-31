@@ -7,217 +7,153 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #f5f0e8; --card: #ffffff; --accent: #c07810; --accent2: #e84a1a;
-    --dark: #1a0d00; --text: #2d1a00; --muted: #8a7260; --border: #e0d0b8;
-    --green: #2d8a50; --green-bg: #e8f5ee; --red: #c0392b; --red-bg: #fde8e6;
-    --new-badge: #e84a1a;
+    --bg:#f5f0e8; --card:#fff; --accent:#c07810; --accent2:#e84a1a;
+    --dark:#1a0d00; --text:#2d1a00; --muted:#8a7260; --border:#e0d0b8;
+    --green:#2d8a50; --green-bg:#e8f5ee; --red:#c0392b; --red-bg:#fde8e6;
+    --new-badge:#e84a1a;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
 
-  header {
-    background:var(--dark); color:#f5ead8; padding:18px 28px;
-    display:flex; align-items:center; justify-content:space-between;
-    border-bottom:3px solid var(--accent);
-  }
-  header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#e8a020; }
+  header { background:var(--dark); color:#f5ead8; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid var(--accent); flex-wrap:wrap; gap:10px; }
+  header h1 { font-family:'Playfair Display',serif; font-size:1.5rem; color:#e8a020; }
   header h1 span { color:var(--accent2); }
-  .header-right { display:flex; align-items:center; gap:14px; }
+  .header-right { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
   #liveDot { width:10px; height:10px; background:#4caf7d; border-radius:50%; animation:pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
-  #liveLabel { font-size:0.8rem; color:#8a9a88; }
-  .btn-clear { background:var(--red); color:#fff; border:none; padding:8px 18px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; }
-  .btn-clear:hover { opacity:0.85; }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+  #liveLabel { font-size:0.78rem; color:#8a9a88; }
+  .btn-clear { background:var(--red); color:#fff; border:none; padding:7px 16px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.78rem; cursor:pointer; }
 
-  .stats-row { display:flex; gap:14px; padding:20px 24px 0; flex-wrap:wrap; }
-  .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 22px; flex:1; min-width:140px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
-  .stat-label { font-size:0.78rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
-  .stat-value { font-size:1.9rem; font-weight:700; color:var(--text); margin-top:4px; }
+  /* SETUP BANNER */
+  #setupBanner {
+    background:#fff3cd; border:2px solid #ffc107; border-radius:14px;
+    margin:18px 20px; padding:18px 20px;
+  }
+  #setupBanner h3 { font-size:1rem; color:#856404; margin-bottom:10px; }
+  #setupBanner p { font-size:0.82rem; color:#6d5a00; margin-bottom:12px; line-height:1.5; }
+  .setup-row { display:flex; gap:10px; flex-wrap:wrap; }
+  .setup-row input {
+    flex:1; min-width:200px; padding:9px 14px; border:1px solid #ffc107;
+    border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.88rem;
+    background:#fffdf0;
+  }
+  .btn-save-key {
+    background:#c07810; color:#fff; border:none; padding:9px 20px;
+    border-radius:10px; font-family:'DM Sans',sans-serif; font-weight:700;
+    font-size:0.88rem; cursor:pointer; white-space:nowrap;
+  }
+  .saved-ok { color:var(--green); font-size:0.82rem; margin-top:6px; display:none; font-weight:600; }
+
+  .stats-row { display:flex; gap:12px; padding:16px 20px 0; flex-wrap:wrap; }
+  .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; flex:1; min-width:130px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+  .stat-label { font-size:0.75rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+  .stat-value { font-size:1.8rem; font-weight:700; color:var(--text); margin-top:4px; }
   .stat-value.green { color:var(--green); }
   .stat-value.orange { color:var(--accent); }
 
-  .filter-row { display:flex; gap:8px; padding:18px 24px 8px; flex-wrap:wrap; }
-  .filter-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); padding:7px 18px; border-radius:20px; font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
-  .filter-btn.active, .filter-btn:hover { background:var(--dark); color:#e8a020; border-color:var(--dark); }
+  .filter-row { display:flex; gap:8px; padding:16px 20px 8px; flex-wrap:wrap; }
+  .filter-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); padding:7px 16px; border-radius:20px; font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .filter-btn.active,.filter-btn:hover { background:var(--dark); color:#e8a020; border-color:var(--dark); }
 
-  #ordersGrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; padding:16px 24px 40px; }
+  #ordersGrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:14px 20px 40px; }
 
-  .order-card { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.06); transition:transform 0.2s,box-shadow 0.2s; animation:slideIn 0.3s ease; }
-  @keyframes slideIn { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
-  .order-card:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(0,0,0,0.1); }
-  .order-card.new-order { border-color:var(--new-badge); border-width:2px; }
-
-  .order-header { background:var(--dark); color:#f5ead8; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
-  .order-header-left { display:flex; flex-direction:column; gap:2px; }
-  .order-num { font-size:0.72rem; color:#8a9a88; font-weight:600; letter-spacing:0.5px; }
+  .order-card { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.06); animation:slideIn 0.35s ease; }
+  @keyframes slideIn{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .order-card.new-order { border:2px solid var(--new-badge); }
+  .order-header { background:var(--dark); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .order-num-tag { font-size:0.7rem; color:#8a9a88; font-weight:600; letter-spacing:0.5px; }
   .order-table-label { font-family:'Playfair Display',serif; font-size:1.1rem; color:#e8a020; }
-  .order-meta { font-size:0.75rem; color:#8a9a88; }
-  .badge-new { background:var(--new-badge); color:white; font-size:0.7rem; font-weight:700; padding:3px 10px; border-radius:10px; letter-spacing:0.5px; animation:badgePulse 1s infinite; }
-  @keyframes badgePulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-
-  .order-body { padding:14px 16px; }
-  .order-items { list-style:none; margin-bottom:12px; }
-  .order-items li { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--border); font-size:0.88rem; }
+  .order-meta { font-size:0.73rem; color:#8a9a88; margin-top:1px; }
+  .badge-new { background:var(--new-badge); color:#fff; font-size:0.68rem; font-weight:700; padding:3px 10px; border-radius:10px; letter-spacing:0.5px; animation:badgePulse 1.2s infinite; }
+  @keyframes badgePulse{0%,100%{opacity:1}50%{opacity:0.55}}
+  .order-body { padding:12px 16px; }
+  .order-items { list-style:none; }
+  .order-items li { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--border); font-size:0.86rem; }
   .order-items li:last-child { border-bottom:none; }
-  .item-qty { color:var(--muted); margin-right:4px; }
-
-  .order-footer { display:flex; align-items:center; justify-content:space-between; padding:10px 16px 14px; border-top:1px solid var(--border); }
-  .order-total { font-weight:700; color:var(--accent); font-size:1.1rem; }
+  .item-qty { color:var(--muted); margin-right:3px; }
+  .order-footer { display:flex; align-items:center; justify-content:space-between; padding:10px 16px 14px; border-top:1px solid var(--border); gap:8px; flex-wrap:wrap; }
+  .order-total { font-weight:700; color:var(--accent); font-size:1.05rem; }
   .status-btns { display:flex; gap:8px; }
-  .btn-done { background:var(--green-bg); color:var(--green); border:1px solid #a8d8bc; padding:7px 16px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; }
-  .btn-done:hover { background:#c8ead6; }
-  .btn-delete { background:var(--red-bg); color:var(--red); border:1px solid #f5b8b0; padding:7px 14px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; }
-  .btn-delete:hover { background:#fbc8c4; }
-  .served-badge { background:var(--green-bg); color:var(--green); border:1px solid #a8d8bc; padding:7px 16px; border-radius:20px; font-size:0.8rem; font-weight:700; }
+  .btn-done { background:var(--green-bg); color:var(--green); border:1px solid #a8d8bc; padding:7px 14px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.78rem; cursor:pointer; }
+  .btn-delete { background:var(--red-bg); color:var(--red); border:1px solid #f5b8b0; padding:7px 12px; border-radius:20px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.78rem; cursor:pointer; }
+  .served-badge { background:var(--green-bg); color:var(--green); border:1px solid #a8d8bc; padding:6px 14px; border-radius:20px; font-size:0.78rem; font-weight:700; }
 
-  #emptyMsg { grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--muted); }
-  #emptyMsg .emoji { font-size:3.5rem; margin-bottom:12px; }
-  #emptyMsg h3 { font-family:'Playfair Display',serif; font-size:1.4rem; margin-bottom:6px; color:var(--text); }
+  #emptyMsg { grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--muted); }
+  #emptyMsg .emoji { font-size:3rem; margin-bottom:10px; }
+  #emptyMsg h3 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--text); margin-bottom:6px; }
 
-  /* ===================== BIG POPUP NOTIFICATION ===================== */
+  /* ======= BIG POPUP ======= */
   #orderPopup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,0.78); z-index:9999;
+    align-items:center; justify-content:center; padding:16px;
   }
-  #orderPopup.show { display: flex; }
-
+  #orderPopup.show { display:flex; }
   .popup-box {
-    background: #fff;
-    border-radius: 24px;
-    max-width: 420px;
-    width: 100%;
-    overflow: hidden;
-    animation: popBounce 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    background:#fff; border-radius:24px; max-width:400px; width:100%;
+    overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,0.5);
+    animation:popBounce 0.45s cubic-bezier(0.34,1.56,0.64,1);
   }
-  @keyframes popBounce {
-    from { transform: scale(0.6) translateY(40px); opacity:0; }
-    to   { transform: scale(1)   translateY(0);    opacity:1; }
+  @keyframes popBounce{from{transform:scale(0.55) translateY(50px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .popup-top {
+    background:linear-gradient(135deg,#e84a1a,#c07810);
+    padding:22px 20px 16px; text-align:center;
   }
+  .popup-bell { font-size:3rem; display:block; margin-bottom:6px; animation:ring 0.45s ease 0.35s 4; }
+  @keyframes ring{0%,100%{transform:rotate(0)}25%{transform:rotate(20deg)}75%{transform:rotate(-20deg)}}
+  .popup-top h2 { font-family:'Playfair Display',serif; color:#fff; font-size:1.45rem; margin-bottom:5px; }
+  .popup-order-badge { display:inline-block; background:rgba(255,255,255,0.22); color:#fff; font-size:0.76rem; font-weight:700; padding:3px 14px; border-radius:20px; letter-spacing:1px; }
+  .popup-table-row { background:var(--dark); color:#e8a020; font-family:'Playfair Display',serif; font-size:1.7rem; text-align:center; padding:13px; }
+  .popup-items-list { list-style:none; padding:14px 18px; max-height:200px; overflow-y:auto; }
+  .popup-items-list li { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed #eee; font-size:0.88rem; color:var(--text); }
+  .popup-items-list li:last-child { border-bottom:none; }
+  .pop-qty { color:var(--muted); font-weight:600; margin-right:4px; }
+  .popup-foot { padding:12px 18px 6px; border-top:2px solid #f0e8d8; display:flex; justify-content:space-between; align-items:center; }
+  .popup-total-val { font-weight:700; color:var(--accent); font-size:1.15rem; }
+  .popup-time-val { font-size:0.75rem; color:var(--muted); }
+  .popup-hint { text-align:center; font-size:0.73rem; color:var(--muted); padding:6px 18px 12px; }
+  .popup-btns { display:flex; gap:10px; padding:0 18px 18px; }
+  .btn-pop-dismiss { flex:1; padding:11px; border-radius:30px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-weight:600; cursor:pointer; }
+  .btn-pop-serve { flex:2; padding:11px; border-radius:30px; border:none; background:linear-gradient(135deg,#2d8a50,#4caf7d); color:#fff; font-family:'DM Sans',sans-serif; font-weight:700; cursor:pointer; font-size:0.9rem; }
 
-  .popup-header {
-    background: linear-gradient(135deg, #e84a1a, #c07810);
-    padding: 22px 24px 18px;
-    text-align: center;
-    position: relative;
-  }
-  .popup-bell { font-size: 2.8rem; display:block; margin-bottom: 6px; animation: ring 0.5s ease 0.3s 3; }
-  @keyframes ring {
-    0%,100%{transform:rotate(0)} 25%{transform:rotate(18deg)} 75%{transform:rotate(-18deg)}
-  }
-  .popup-header h2 {
-    font-family: 'Playfair Display', serif;
-    color: #fff;
-    font-size: 1.5rem;
-    margin-bottom: 4px;
-  }
-  .popup-order-num {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 3px 14px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-  }
+  /* REFRESH STATUS BAR */
+  #statusBar { text-align:center; font-size:0.75rem; color:var(--muted); padding:8px; background:#ede8df; border-bottom:1px solid var(--border); }
+  #statusBar span { color:var(--accent); font-weight:600; }
 
-  .popup-table-badge {
-    background: var(--dark);
-    color: #e8a020;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    text-align: center;
-    padding: 14px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .popup-items {
-    padding: 16px 20px;
-    list-style: none;
-    max-height: 220px;
-    overflow-y: auto;
-  }
-  .popup-items li {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px dashed #eee;
-    font-size: 0.9rem;
-    color: var(--text);
-  }
-  .popup-items li:last-child { border-bottom: none; }
-  .popup-item-qty { color: var(--muted); margin-right:4px; font-weight:600; }
-
-  .popup-footer {
-    padding: 14px 20px 20px;
-    border-top: 2px solid #f0e8d8;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .popup-total { font-weight:700; color:var(--accent); font-size:1.2rem; }
-  .popup-time { font-size:0.78rem; color:var(--muted); }
-
-  .popup-btns { display:flex; gap:10px; padding: 0 20px 20px; }
-  .btn-dismiss {
-    flex:1; padding:12px; border-radius:30px;
-    border:1px solid var(--border); background:transparent; color:var(--muted);
-    font-family:'DM Sans',sans-serif; font-weight:600; cursor:pointer; font-size:0.9rem;
-  }
-  .btn-popup-serve {
-    flex:2; padding:12px; border-radius:30px; border:none;
-    background: linear-gradient(135deg, #2d8a50, #4caf7d);
-    color:#fff; font-family:'DM Sans',sans-serif; font-weight:700;
-    cursor:pointer; font-size:0.9rem;
-  }
-
-  /* SOUND INDICATOR */
-  .popup-sound {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--muted);
-    padding: 0 20px 14px;
-  }
-
-  /* SMALL TOAST (still kept for subtle ongoing alerts) */
-  #toast {
-    position: fixed; bottom:30px; right:30px;
-    background:var(--dark); color:#e8a020;
-    padding:12px 20px; border-radius:12px;
-    font-weight:600; font-size:0.85rem;
-    box-shadow:0 6px 24px rgba(0,0,0,0.3);
-    border-left:4px solid var(--new-badge);
-    transform:translateX(120%);
-    transition:transform 0.3s ease;
-    z-index:998; max-width:260px;
-  }
+  #toast { position:fixed; bottom:24px; right:24px; background:var(--dark); color:#e8a020; padding:11px 18px; border-radius:12px; font-weight:600; font-size:0.83rem; box-shadow:0 6px 24px rgba(0,0,0,0.3); border-left:4px solid var(--new-badge); transform:translateX(130%); transition:transform 0.3s ease; z-index:998; max-width:260px; }
   #toast.show { transform:translateX(0); }
 
-  @media (max-width:600px) {
-    .stats-row, .filter-row { padding-left:14px; padding-right:14px; }
-    #ordersGrid { padding:14px; }
-    header { padding:14px 16px; }
-  }
+  @media(max-width:600px){ .stats-row,.filter-row{padding-left:12px;padding-right:12px} #ordersGrid{padding:12px} header{padding:12px 14px} }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>H<span>&</span>C Café <span style="font-size:1rem;color:#8a9a88;">– Admin</span></h1>
+  <h1>H<span>&</span>C Café <span style="font-size:0.95rem;color:#8a9a88;">– Admin</span></h1>
   <div class="header-right">
     <div id="liveDot"></div>
-    <span id="liveLabel">Live</span>
-    <button class="btn-clear" onclick="clearAll()">Clear All</button>
+    <span id="liveLabel">Live · refreshes every 3s</span>
+    <button class="btn-clear" onclick="clearAll()">🗑 Clear All</button>
   </div>
 </header>
+
+<div id="statusBar">Last refreshed: <span id="lastRefreshTime">—</span> &nbsp;|&nbsp; Auto-refresh every <span>3 seconds</span></div>
+
+<!-- SETUP BANNER -->
+<div id="setupBanner">
+  <h3>⚙️ One-Time Setup — Enter Your JSONBin Details</h3>
+  <p>
+    To receive orders from customer phones in real-time:<br>
+    1. Go to <strong>jsonbin.io</strong> → Sign up free → Copy your <strong>Access Key</strong><br>
+    2. Also create a new <strong>Bin</strong> with content <code>{"orders":[]}</code> and copy its <strong>Bin ID</strong>
+  </p>
+  <div class="setup-row">
+    <input type="text" id="apiKeyInput" placeholder="JSONBin Access Key (starts with $2b$...)" />
+    <input type="text" id="binIdInput" placeholder="Bin ID (e.g. 64abc123...)" />
+    <button class="btn-save-key" onclick="saveConfig()">Save & Start</button>
+  </div>
+  <div class="saved-ok" id="configSavedMsg">✅ Config saved! Loading orders...</div>
+</div>
 
 <div class="stats-row">
   <div class="stat-card">
@@ -249,199 +185,239 @@
 
 <div id="ordersGrid"></div>
 
-<!-- BIG POPUP -->
+<!-- POPUP -->
 <div id="orderPopup">
   <div class="popup-box">
-    <div class="popup-header">
+    <div class="popup-top">
       <span class="popup-bell">🔔</span>
       <h2>New Order Received!</h2>
-      <span class="popup-order-num" id="popupOrderNum">ORDER #1</span>
+      <span class="popup-order-badge" id="popupOrderNum">ORDER #1</span>
     </div>
-    <div class="popup-table-badge" id="popupTable">Table —</div>
-    <ul class="popup-items" id="popupItems"></ul>
-    <div class="popup-footer">
-      <div>
-        <div class="popup-total" id="popupTotal">₹0</div>
-        <div class="popup-time" id="popupTime"></div>
-      </div>
+    <div class="popup-table-row" id="popupTable">Table —</div>
+    <ul class="popup-items-list" id="popupItems"></ul>
+    <div class="popup-foot">
+      <div class="popup-total-val" id="popupTotal">₹0</div>
+      <div class="popup-time-val" id="popupTime"></div>
     </div>
-    <div class="popup-sound">🔕 Keep this tab open to receive order alerts</div>
+    <div class="popup-hint">🔕 Keep this tab open for live alerts</div>
     <div class="popup-btns">
-      <button class="btn-dismiss" onclick="dismissPopup()">Dismiss</button>
-      <button class="btn-popup-serve" onclick="serveFromPopup()">✅ Mark as Served</button>
+      <button class="btn-pop-dismiss" onclick="dismissPopup()">Dismiss</button>
+      <button class="btn-pop-serve" onclick="serveFromPopup()">✅ Mark Served</button>
     </div>
   </div>
 </div>
 
-<!-- SMALL TOAST -->
 <div id="toast"></div>
 
 <script>
-let currentFilter = "all";
-let lastOrderCount = 0;
-let popupOrderId = null;
+// ─── CONFIG ────────────────────────────────────────────────
+let API_KEY = localStorage.getItem("hc_api_key") || "";
+let BIN_ID  = localStorage.getItem("hc_bin_id")  || "";
 
-function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+if (API_KEY) document.getElementById("apiKeyInput").value = API_KEY;
+if (BIN_ID)  document.getElementById("binIdInput").value  = BIN_ID;
+if (API_KEY && BIN_ID) document.getElementById("setupBanner").style.display = "none";
+
+function saveConfig() {
+  API_KEY = document.getElementById("apiKeyInput").value.trim();
+  BIN_ID  = document.getElementById("binIdInput").value.trim();
+  if (!API_KEY || !BIN_ID) { alert("Please enter both the API Key and Bin ID!"); return; }
+  localStorage.setItem("hc_api_key", API_KEY);
+  localStorage.setItem("hc_bin_id",  BIN_ID);
+  document.getElementById("configSavedMsg").style.display = "block";
+  setTimeout(() => {
+    document.getElementById("setupBanner").style.display = "none";
+    poll();
+  }, 1500);
+}
+
+// ─── STATE ─────────────────────────────────────────────────
+let currentFilter   = "all";
+let lastOrderCount  = 0;
+let allOrders       = [];
+let popupOrderId    = null;
+let popupDismissTimer = null;
+
+// ─── JSONBIN API ───────────────────────────────────────────
+async function fetchOrders() {
+  if (!API_KEY || !BIN_ID) return null;
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    const data = await res.json();
+    return data.record.orders || [];
+  } catch(e) { console.error("Fetch error:", e); return null; }
+}
+
+async function saveOrders(orders) {
+  if (!API_KEY || !BIN_ID) return;
+  try {
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+      body: JSON.stringify({ orders })
+    });
+  } catch(e) { console.error("Save error:", e); }
+}
+
+// ─── ACTIONS ───────────────────────────────────────────────
+async function markServed(id) {
+  const orders = [...allOrders];
+  const o = orders.find(x => x.id === id);
+  if (o) { o.status = "served"; await saveOrders(orders); allOrders = orders; render(); }
+}
+
+async function deleteOrder(id) {
+  const orders = allOrders.filter(x => x.id !== id);
+  await saveOrders(orders);
+  allOrders = orders;
   render();
 }
 
-function getOrders() { return JSON.parse(localStorage.getItem("hc_orders")||"[]"); }
-function saveOrders(o) { localStorage.setItem("hc_orders", JSON.stringify(o)); }
-
-function getOrderNum(orders, id) {
-  // Order number = position in all-time order list (1-based)
-  const idx = orders.findIndex(o => o.id === id);
-  return idx >= 0 ? idx + 1 : "?";
-}
-
-function markServed(id) {
-  const orders = getOrders();
-  const o = orders.find(x=>x.id===id);
-  if(o) o.status="served";
-  saveOrders(orders); render();
-}
-
-function deleteOrder(id) {
-  saveOrders(getOrders().filter(x=>x.id!==id));
-  render();
-}
-
-function clearAll() {
-  if(confirm("Clear ALL orders? This cannot be undone.")) {
-    localStorage.removeItem("hc_orders");
+async function clearAll() {
+  if (confirm("Clear ALL orders? This cannot be undone.")) {
+    await saveOrders([]);
+    allOrders = [];
     lastOrderCount = 0;
     render();
   }
 }
 
-function dismissPopup() {
-  document.getElementById("orderPopup").classList.remove("show");
-  popupOrderId = null;
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
 }
 
-function serveFromPopup() {
-  if(popupOrderId) markServed(popupOrderId);
-  dismissPopup();
-}
-
-function showPopup(order, orderNum) {
+// ─── POPUP ─────────────────────────────────────────────────
+function showPopup(order, num) {
   popupOrderId = order.id;
-  document.getElementById("popupOrderNum").innerText = "ORDER #" + orderNum;
-  document.getElementById("popupTable").innerText = "🍽️  Table " + order.table;
-  document.getElementById("popupTotal").innerText = "Total: ₹" + order.total;
-  document.getElementById("popupTime").innerText = order.time + " · " + order.date;
-
+  document.getElementById("popupOrderNum").innerText = "ORDER #" + num;
+  document.getElementById("popupTable").innerText    = "🍽️  Table " + order.table;
+  document.getElementById("popupTotal").innerText    = "Total: ₹" + order.total;
+  document.getElementById("popupTime").innerText     = order.time + "  ·  " + order.date;
   const ul = document.getElementById("popupItems");
   ul.innerHTML = "";
   order.items.forEach(item => {
     const li = document.createElement("li");
-    li.innerHTML = `<span><span class="popup-item-qty">${item.qty}×</span> ${item.name}</span><span>₹${item.subtotal}</span>`;
+    li.innerHTML = `<span><span class="pop-qty">${item.qty}×</span> ${item.name}</span><span>₹${item.subtotal}</span>`;
     ul.appendChild(li);
   });
-
   document.getElementById("orderPopup").classList.add("show");
-
-  // Auto dismiss after 30 seconds
-  setTimeout(() => { dismissPopup(); }, 30000);
+  clearTimeout(popupDismissTimer);
+  popupDismissTimer = setTimeout(dismissPopup, 30000);
 }
 
+function dismissPopup() {
+  document.getElementById("orderPopup").classList.remove("show");
+  popupOrderId = null;
+  clearTimeout(popupDismissTimer);
+}
+
+function serveFromPopup() {
+  if (popupOrderId) markServed(popupOrderId);
+  dismissPopup();
+}
+
+// ─── TOAST ─────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById("toast");
   t.innerText = msg;
   t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"), 4000);
+  setTimeout(() => t.classList.remove("show"), 4000);
 }
 
+// ─── RENDER ────────────────────────────────────────────────
 function render() {
-  const orders = getOrders();
-  const grid = document.getElementById("ordersGrid");
+  const orders = allOrders;
+  const grid   = document.getElementById("ordersGrid");
   grid.innerHTML = "";
 
   // Stats
   const today = new Date().toLocaleDateString();
-  const todayOrders = orders.filter(o=>o.date===today);
-  const totalOrderNum = orders.length;
-  document.getElementById("statOrderNum").innerText = "#" + totalOrderNum;
-  document.getElementById("statPending").innerText = orders.filter(o=>o.status==="new").length;
-  document.getElementById("statRevenue").innerText = "₹" + todayOrders.reduce((s,o)=>s+o.total,0);
-  const tables = [...new Set(orders.filter(o=>o.status==="new").map(o=>o.table))];
-  document.getElementById("statTables").innerText = tables.length;
+  document.getElementById("statOrderNum").innerText = "#" + orders.length;
+  document.getElementById("statPending").innerText  = orders.filter(o => o.status === "new").length;
+  document.getElementById("statRevenue").innerText  = "₹" + orders.filter(o => o.date === today).reduce((s,o) => s+o.total, 0);
+  document.getElementById("statTables").innerText   = [...new Set(orders.filter(o => o.status === "new").map(o => o.table))].length;
 
   // Filter
   let filtered = orders;
-  if      (currentFilter==="new")    filtered = orders.filter(o=>o.status==="new");
-  else if (currentFilter==="served") filtered = orders.filter(o=>o.status==="served");
-  else if (["1","2","3"].includes(currentFilter)) filtered = orders.filter(o=>o.table===currentFilter);
+  if      (currentFilter === "new")              filtered = orders.filter(o => o.status === "new");
+  else if (currentFilter === "served")           filtered = orders.filter(o => o.status === "served");
+  else if (["1","2","3"].includes(currentFilter))filtered = orders.filter(o => o.table === currentFilter);
 
-  if(filtered.length===0){
-    grid.innerHTML=`<div id="emptyMsg"><div class="emoji">🍽️</div><h3>No orders yet</h3><p>Waiting for customers to scan QR and order...</p></div>`;
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div id="emptyMsg"><div class="emoji">🍽️</div><h3>No orders yet</h3><p>Waiting for customers to scan QR and order...</p></div>`;
     return;
   }
 
-  // Sort newest first — assign order numbers based on original position
-  [...filtered].reverse().forEach(order => {
-    const orderNum = getOrderNum(orders, order.id);
-    const card = document.createElement("div");
-    card.className = "order-card" + (order.status==="new"?" new-order":"");
+  [...filtered].reverse().forEach((order, ri) => {
+    const orderNum   = orders.findIndex(o => o.id === order.id) + 1;
+    const isNew      = order.status === "new";
+    const card       = document.createElement("div");
+    card.className   = "order-card" + (isNew ? " new-order" : "");
 
-    const itemsHTML = order.items.map(i=>
+    const itemsHTML  = order.items.map(i =>
       `<li><span><span class="item-qty">${i.qty}×</span>${i.name}</span><span>₹${i.subtotal}</span></li>`
     ).join("");
 
-    const actionHTML = order.status==="served"
-      ? `<span class="served-badge">✅ Served</span>`
-      : `<div class="status-btns">
-           <button class="btn-done" onclick="markServed(${order.id})">✅ Mark Served</button>
+    const actionHTML = isNew
+      ? `<div class="status-btns">
+           <button class="btn-done"   onclick="markServed(${order.id})">✅ Served</button>
            <button class="btn-delete" onclick="deleteOrder(${order.id})">🗑</button>
-         </div>`;
+         </div>`
+      : `<span class="served-badge">✅ Served</span>`;
 
     card.innerHTML = `
       <div class="order-header">
-        <div class="order-header-left">
-          <div class="order-num">ORDER #${orderNum}</div>
+        <div>
+          <div class="order-num-tag">ORDER #${orderNum}</div>
           <div class="order-table-label">Table ${order.table}</div>
           <div class="order-meta">${order.date} · ${order.time}</div>
         </div>
-        ${order.status==="new"?'<span class="badge-new">NEW</span>':''}
+        ${isNew ? '<span class="badge-new">NEW</span>' : ''}
       </div>
       <div class="order-body"><ul class="order-items">${itemsHTML}</ul></div>
       <div class="order-footer">
         <div class="order-total">Total: ₹${order.total}</div>
         ${actionHTML}
       </div>`;
-
     grid.appendChild(card);
   });
 }
 
-// Poll every 2 seconds for new orders
-function poll() {
-  const orders = getOrders();
-  const newCount = orders.length;
+// ─── POLL EVERY 3 SECONDS ──────────────────────────────────
+async function poll() {
+  if (!API_KEY || !BIN_ID) return;
 
-  if (newCount > lastOrderCount && lastOrderCount !== 0) {
-    // Get all newly added orders
-    const newOrders = orders.slice(lastOrderCount);
-    newOrders.forEach((order, i) => {
-      const orderNum = lastOrderCount + i + 1;
-      // Show popup for the first new order; toast for additional ones
-      if (i === 0) {
-        showPopup(order, orderNum);
-      } else {
-        showToast(`🔔 Table ${order.table} placed Order #${orderNum}!`);
-      }
+  const orders = await fetchOrders();
+  if (orders === null) return;           // network error, skip silently
+
+  // Detect new orders since last poll
+  if (orders.length > lastOrderCount && lastOrderCount !== 0) {
+    const newOnes = orders.slice(lastOrderCount);
+    newOnes.forEach((order, i) => {
+      const num = lastOrderCount + i + 1;
+      if (i === 0) showPopup(order, num);
+      else showToast(`🔔 Table ${order.table} placed Order #${num}!`);
     });
   }
 
-  lastOrderCount = newCount;
+  lastOrderCount = orders.length;
+  allOrders = orders;
   render();
+
+  // Update refresh timestamp
+  const now = new Date();
+  document.getElementById("lastRefreshTime").innerText =
+    now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
 }
 
-setInterval(poll, 2000);
+// ─── BOOT ──────────────────────────────────────────────────
 poll();
+setInterval(poll, 3000);
 </script>
 </body>
 </html>
